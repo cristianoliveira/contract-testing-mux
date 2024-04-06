@@ -82,6 +82,12 @@ cacheMatchers().then((examplesMap) => {
     });
   }
 
+  console.log("Server running at localhost:4400");
+  console.log("Available providers: ", 
+    providers.map(
+      p => `provider: ${p.name}\nexamples: ${Object.keys(examplesMap[p.name]).join('\n ')}`
+    ).join('\n'));
+
   http.createServer(onRequest).listen(4400);
 });
 
