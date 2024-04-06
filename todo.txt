@@ -1,0 +1,1 @@
+spin up each service configured in ./proxy.json with it's own port

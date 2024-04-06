@@ -1,7 +1,8 @@
 {
   "providers": [{
-    "name": "pets",
+    "name": "pets-store",
     "hostname": "localhost",
-    "port": 4010
+    "port": 4010,
+    "openapiFile": "./providers/pets-store/openapi/api.yaml"
   }]
 }

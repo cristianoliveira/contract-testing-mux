@@ -6,11 +6,12 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest",
-    "mock": "prism mock -d ./providers/pets/openapi/api.yaml"
+    "mock": "prism mock -d ./providers/pets-store/openapi/api.yaml"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@readme/openapi-parser": "^2.5.0",
     "@stoplight/prism-cli": "^5.7.0"
   }
 }
