@@ -3,17 +3,31 @@ info:
   title: Pet Store API
   version: 1.0.0
 paths:
-  /v1/checkout/sessions/{id}:
+  /v1/pets/{id}/status:
+    parameters:
+      - $ref: "#/components/parameters/PetID"
+    get:
+      summary: Retrieve a status of pet
+      description: Returns a status of a pet.
+      tags:
+        - Pets v0.1
+      responses:
+        "200":
+          $ref: "#/components/responses/PetStatus"
+        "404":
+          $ref: "#/components/responses/ErrorNotFound"
+
+  /v1/pets/sessions/{id}:
     get:
       tags:
-        - Checkout Sessions v1
-      summary: Retrieve a checkout session by ID
-      description: Retrieve a checkout session by its unique identifier
+        - Pet Sessions v1
+      summary: Retrieve a pet session by ID
+      description: Retrieve a pet session by its unique identifier
       parameters:
         - in: path
           name: id
           required: true
-          description: Unique identifier for the checkout session
+          description: Unique identifier 
           schema:
             type: string
       responses:
@@ -22,13 +36,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CheckoutSession"
+                $ref: "#/components/schemas/PetSession"
               examples:
                 pending_session:
                   summary: A summary of pending session
                   value:
                     id: "pending_session"
-                    checkout_id: "f9148ec4-744e-4740-b536-a3c24838c2f8"
+                    pet_id: "f9148ec4-744e-4740-b536-a3c24838c2f8"
                     merchant_data:
                       merchant_code: "MC12345"
                       business_name: "Pending shop"
@@ -70,7 +84,7 @@ paths:
                   summary: A summary of paid session
                   value:
                     id: "paid_session"
-                    checkout_id: "7c7def3a-3c0a-4536-8848-6bd2bb0e094e"
+                    pet_id: "7c7def3a-3c0a-4536-8848-6bd2bb0e094e"
                     merchant_data:
                       merchant_code: "MC12345"
                       business_name: "Paid shop"
@@ -139,14 +153,14 @@ paths:
   /pets/{id}:
    get:
       tags:
-        - Checkout Sessions v1
-      summary: Retrieve a checkout session by ID
-      description: Retrieve a checkout session by its unique identifier
+        - Pet Sessions v1
+      summary: Retrieve a pet session by ID
+      description: Retrieve a pet session by its unique identifier
       parameters:
         - in: path
           name: id
           required: true
-          description: Unique identifier for the checkout session
+          description: Unique identifier for the pet session
           schema:
             type: string
  
@@ -171,10 +185,27 @@ paths:
 
 components:
   schemas:
-    CheckoutSession:
+    Error:
+      type: object
+      description: Error message structure.
+      properties:
+        message:
+          type: string
+          description: Short description of the error.
+        error_code:
+          type: string
+          description: Platform code for the error.
+        param:
+          type: string
+          description: Parameter name (with relative location) to which the error applies. Parameters from embedded resources are displayed using dot notation. For example, `card.name` refers to the `name` parameter embedded in the `card` object.
+      required:
+        - message
+        - error_code
+
+    PetSession:
       type: object
       properties:
-        checkout_id:
+        pet_id:
           type: string
           example: 6c7def3a-3c0a-4536-8848-6bd2bb0e094e
         merchant_data:
@@ -277,3 +308,53 @@ components:
         status:
           type: string
           example: PENDING
+    PetStatusResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Current status of the pet.
+          enum:
+            - PENDING
+            - FAILED
+            - SUCCESS
+
+  responses:
+    ErrorNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            Not_Found:
+              description: The identified resource is not found on the server.
+              value:
+                error_code: NOT_FOUND
+                message: Resource not found
+
+    PetStatus:
+      description: Create pet response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PetStatusResponse"
+          examples:
+            foo:
+              value:
+                status: "SUCCESS"
+            Pet:
+              value:
+                status: "SUCCESS"
+
+  parameters:
+    PetID:
+      name: id
+      in: path
+      required: true
+      description: Unique ID of the pet resource.
+      schema:
+        type: string
+

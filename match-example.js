@@ -9,10 +9,11 @@ const OpenAPIParser = require("@readme/openapi-parser");
  * @returns {Promise<RegExp[]>} - Array of matchers
  */
 const createMatchers = async (specification) => {
-  const res = await OpenAPIParser.validate(specification);
-  return Object.keys(res.paths).map((path) => {
-    const mapExamples = Object.keys(res.paths[path]).map((key) => {
-      const method = res.paths[path][key];
+  const openApi = await OpenAPIParser.validate(specification);
+  return Object.keys(openApi.paths).map((path) => {
+    const mapExamples = Object.keys(openApi.paths[path]).map((attr) => {
+      if (![ 'get', 'post', 'put', 'delete', 'patch' ].includes(attr)) return [];
+      const method = openApi.paths[path][attr];
 
       const examples = Object.keys(method.responses).map((response) => {
         const responseObj = method.responses[response];
@@ -25,12 +26,12 @@ const createMatchers = async (specification) => {
       }).flat(2);
 
       return examples;
-    })[0].reduce((acc, example) => {
-      return { ...acc, [path.replace(/{[^}]*}/g, example)]: example };
-    }, {});
+    }).flat(2);
 
-    return mapExamples;
-  }).reduce((a, b) => ({ ...a, ...b }));
+    return mapExamples.reduce((acc, example) => {
+      return { ...acc, [path.replace(/{[^}]*}/g, example)]: example };
+    }, {})
+  }).reduce((a, b) => ({ ...a, ...b }));;
 };
 
 // createMatchers('./providers/pets-store/openapi/api.yaml').then((matchers) => {
