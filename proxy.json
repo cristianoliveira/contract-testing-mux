@@ -1,8 +1,16 @@
 {
-  "providers": [{
-    "name": "pets-store",
-    "hostname": "localhost",
-    "port": 4010,
-    "openapiFile": "./providers/pets-store/openapi/api.yaml"
-  }]
+  "providers": [
+    {
+      "name": "pets-store",
+      "hostname": "localhost",
+      "port": 4010,
+      "openapiFile": "./providers/pets-store/openapi/api.yaml"
+    },
+    {
+      "name": "fooo",
+      "hostname": "localhost",
+      "port": 4011,
+      "openapiFile": "./providers/pets-store/openapi/api.yaml"
+    }
+  ]
 }

@@ -4,9 +4,11 @@
   "description": "A contract testing template",
   "main": "index.js",
   "scripts": {
+    "serve": "./start.sh",
     "start": "node index.js",
     "test": "jest",
-    "mock": "prism mock -d ./providers/pets-store/openapi/api.yaml"
+    "proxy": "prism proxy -d ./providers/pets-store/openapi/api.yaml",
+    "mock": "prism mock"
   },
   "author": "",
   "license": "ISC",
