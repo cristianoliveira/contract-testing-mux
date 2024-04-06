@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Pet Store API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      summary: List all pets
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    species:
+                      type: string
+                    age:
+                      type: integer
+                    breed:
+                      type: string
+      post:
+        summary: Add a new pet
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  species:
+                    type: string
+                  age:
+                    type: integer
+                  breed:
+                    type: string
+        responses:
+          '201':
+            description: Pet added successfully

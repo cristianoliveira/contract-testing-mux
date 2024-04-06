@@ -1,0 +1,16 @@
+{
+  "name": "contract-testing",
+  "version": "0.0.1",
+  "description": "A contract testing template",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest",
+    "mock": "prism mock -d ./providers/pets/openapi/api.yaml"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stoplight/prism-cli": "^5.7.0"
+  }
+}

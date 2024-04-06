@@ -1,0 +1,7 @@
+{
+  "providers": [{
+    "name": "pets",
+    "hostname": "localhost",
+    "port": 4010
+  }]
+}
