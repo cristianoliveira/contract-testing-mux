@@ -47,7 +47,7 @@ for name in $(jq -r '.providers[].name' proxy.json); do
   fi
 
   echo "npm run prism:mock -d $file -p $port"
-  # bash -c "npm run prism:mock -- -d $file -p $port & echo \$! >> $PWD/proxy.pid"
+  bash -c "npm run prism:mock -- -d $file -p $port & echo \$! >> $PWD/proxy.pid"
 done
 
-# npm run proxy:serve
+npm run proxy:serve

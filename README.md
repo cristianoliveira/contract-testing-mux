@@ -51,14 +51,12 @@ so when you call `http:localhost:4400/foo/bar` it will forward the request to
     "providers": [
         {
             "name": "foo",
-            "hostname": "localhost",
             "port": 3000,
             "openapiFile": "./providers/foo/openapi/api.yaml"
         },
         {
             "name": "foo",
-            "hostname": "localhost",
-            "port": 3000,
+            "port": 3001,
             "git": {
                 "repo": "cristianoliveira/myprivaterepo",
                 "path": "api2.yaml",

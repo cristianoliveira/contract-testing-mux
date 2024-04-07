@@ -2,19 +2,16 @@
   "providers": [
     {
       "name": "pets-store",
-      "hostname": "127.0.0.0",
       "port": 4010,
       "openapiFile": "./fixtures/api.yaml"
     },
     {
       "name": "animals",
-      "hostname": "127.0.0.0",
       "port": 4011,
       "openapiFile": "./fixtures/api2.yaml"
     },
     {
       "name": "cats",
-      "hostname": "localhost",
       "port": 4012,
       "git": {
         "repo": "cristianoliveira/myprivaterepo",
