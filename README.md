@@ -1,7 +1,7 @@
 # Contract Mux Service
 
 Contract testing service multiplexer. A centralized contract testing service for
-validating requests and responses against an openapi specification.
+validating requests and responses against an openapi specification. (See [prism](https://github.com/stoplightio/prism))
 
 ## Why?
 
