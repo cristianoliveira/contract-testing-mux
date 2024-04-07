@@ -22,9 +22,9 @@ the implementation is compatible with the contract described in the openapi spec
 ### Reliable UI/e2e testing
 
 Many times the UI tests are flaky because one or more services aren't stable, with this service
-the UI tests can be more reliable since a mocked response can be returned from the prims server
-based on the openapi specification. For e2e tests, this services can proxy requests
-to the real service and check the contract.
+the UI tests can be more reliable since a mocked response returns from the prims server
+based on the openapi specification examples (which contribute with a more rich API documentation!). 
+For e2e tests, this services can proxy requests to the real service and check the contract.
 
 ### Shared enviroment
 
