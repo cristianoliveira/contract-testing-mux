@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "bash ./start.sh",
-    "serve:proxy": "node index.js",
-    "test": "jest",
-    "proxy": "prism proxy -d ./providers/pets-store/openapi/api.yaml",
-    "mock": "prism mock"
+    "proxy:serve": "node index.js",
+    "prism:proxy": "prism proxy",
+    "prism:mock": "prism mock",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
