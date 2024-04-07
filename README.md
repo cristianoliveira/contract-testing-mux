@@ -81,6 +81,7 @@ sequenceDiagram
     Note over Prism, Upstream: Proxies or mock and validate contract
     alt should mock
         Prism->>ContractServiceMux: 200 OK (mocked)
+        ContractServiceMux->>Client: 200 OK
     else proxy to upstream
         Prism->>Upstream: GET /bar (myservice domain)
         Note over Upstream, Prism: Validates contract
