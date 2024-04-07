@@ -24,8 +24,6 @@ const createMatchers = async ({ name, file, git }) => {
   let specification = 
     git ? `./providers/${name}/${git.path}` : file;
 
-  console.log('@@@@@@ specification: ', specification);
-
   const openApi = await OpenAPIParser.validate(specification);
   const examplesUrlMap = Object.keys(openApi.paths).map((path) => {
     const mapExamples = Object.keys(openApi.paths[path]).map((attr) => {
