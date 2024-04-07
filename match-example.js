@@ -44,10 +44,14 @@ const createMatchers = async ({ name, openapiFile }) => {
   }
 };
 
-// createMatchers('./providers/pets-store/openapi/api.yaml').then((matchers) => {
-//   console.log('@@@@@@  matchers: ', matchers);
-// });
-
+// only run if module is run directly for debugging
+// `node match-example.js`
+if (require.main === module) {
+  const { providers } = require('./fixtures/proxy.json');
+  createMatchers(providers[0]).then((matchers) => {
+    console.log('matchers: ', matchers);
+  });
+}
 
 const createExamplesUrlsForProviders = async (providers) => {
   const promises = providers.map(async provider => {
