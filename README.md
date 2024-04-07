@@ -26,9 +26,9 @@ the UI tests can be more reliable since they can be written against a mock respo
 based on the **openapi specification examples** (which contribute with a more rich API documentation!). 
 For e2e tests, this services can proxy requests to the real service and check the contract.
 
-### Shared enviroment
+### Shared environment
 
-Spining up a mock service in a shared enviroment is usually not a simple task. This service
+Spining up a mock service in a shared environment is usually not a simple task. This service
 reduces the complexity to a single configuration file.
 
 ## Benefits
