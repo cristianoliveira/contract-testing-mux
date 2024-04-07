@@ -78,13 +78,13 @@ sequenceDiagram
     participant Prism
     participant Upstream
 
-    Client->>ContractServiceMux: GET /foo/bar
-    ContractServiceMux->>Prism: GET /foo/bar
+    Client->>ContractServiceMux: GET /myservice/bar
+    ContractServiceMux->>Prism: GET /myservice/bar
     Note over Prism, Upstream: Proxies or mock and validate contract
     alt should mock
         Prism->>ContractServiceMux: 200 OK (mocked)
     else Contract found
-        Prism->>Upstream: GET /bar
+        Prism->>Upstream: GET /bar (myservice domain)
         Note over Upstream, Prism: Validates contract
         Upstream->>Prism: 200 OK
         Prism->>ContractServiceMux: 200 OK
