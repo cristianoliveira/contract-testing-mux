@@ -52,7 +52,7 @@ so when you call `http:localhost:4400/foo/bar` it will forward the request to
         {
             "name": "foo",
             "port": 3000,
-            "openapiFile": "./providers/foo/openapi/api.yaml"
+            "file": "./providers/foo/openapi/api.yaml"
         },
         {
             "name": "foo",

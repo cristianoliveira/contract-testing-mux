@@ -20,6 +20,7 @@ const examplesUrlMap = require('./match-example.js');
 
 const { providers } = proxyConfig;
 
+console.log('@@@@@@ providers: ', providers);
 examplesUrlMap(providers).then((examplesMap) => {
   /**
    * @param {http.IncomingMessage} req
@@ -44,7 +45,7 @@ examplesUrlMap(providers).then((examplesMap) => {
     const specialHeader = preferedExample ? { 'Prefer': `example=${preferedExample}` } : {};
 
     const options = {
-      hostname: provider.hostname,
+      hostname: "0.0.0.0",
       port: provider.port,
       path: req.url.replace(`/${provider.name}`, ''),
       method: req.method,

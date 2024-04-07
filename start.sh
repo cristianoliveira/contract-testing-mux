@@ -44,6 +44,7 @@ for name in $(jq -r '.providers[].name' proxy.json); do
     curl -v -s -L -o "$fullpath" \
       "https://raw.githubusercontent.com/$repo/$tag/$path" \
       -H "Authorization: token $token"
+    file=$fullpath
   fi
 
   echo "npm run prism:mock -d $file -p $port"

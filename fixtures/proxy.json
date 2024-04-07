@@ -3,12 +3,12 @@
     {
       "name": "pets-store",
       "port": 4010,
-      "openapiFile": "./fixtures/api.yaml"
+      "file": "./fixtures/api.yaml"
     },
     {
       "name": "animals",
       "port": 4011,
-      "openapiFile": "./fixtures/api2.yaml"
+      "file": "./fixtures/api2.yaml"
     },
     {
       "name": "cats",

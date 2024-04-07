@@ -3,12 +3,12 @@
     {
       "name": "pets-store",
       "port": 4010,
-      "openapiFile": "./providers/pets-store/openapi/api.yaml"
+      "file": "./providers/pets-store/openapi/api.yaml"
     },
     {
       "name": "fooo",
       "port": 4011,
-      "openapiFile": "./providers/pets-store/openapi/api.yaml"
+      "file": "./providers/pets-store/openapi/api.yaml"
     },
     {
       "name": "cats",

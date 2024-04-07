@@ -11,7 +11,7 @@ const OpenAPIParser = require("@readme/openapi-parser");
 /**
  * @typedef {Object} Provider
  * @property {string} name - The name of the provider (must be unique)
- * @property {string} openapiFile - The path to the OpenAPI file
+ * @property {string} file - The path to the OpenAPI file
  * @property {Git} git - The git containing repo, file and ref (tag)
  */
 
@@ -20,17 +20,16 @@ const OpenAPIParser = require("@readme/openapi-parser");
  * @param {Provider} param0 - The provider object
  * @returns {Promise<RegExp[]>} - Array of matchers
  */
-const createMatchers = async ({ name, openapiFile, git }) => {
-  let file = openapiFile;
+const createMatchers = async ({ name, file, git }) => {
+  let specification = 
+    git ? `./providers/${name}/${git.path}` : file;
 
-  if (git) {
-    file = `./providers/${name}/${git.path}`;
-  }
+  console.log('@@@@@@ specification: ', specification);
 
-  const openApi = await OpenAPIParser.validate(file);
+  const openApi = await OpenAPIParser.validate(specification);
   const examplesUrlMap = Object.keys(openApi.paths).map((path) => {
     const mapExamples = Object.keys(openApi.paths[path]).map((attr) => {
-      if (![ 'get', 'post', 'put', 'delete', 'patch' ].includes(attr)) return [];
+      if (!['get', 'post', 'put', 'delete', 'patch'].includes(attr)) return [];
       const method = openApi.paths[path][attr];
 
       const examples = Object.keys(method.responses).map((response) => {
@@ -71,7 +70,7 @@ const createExamplesUrlsForProviders = async (providers) => {
   });
 
   const providersMatcher = await Promise.all(promises);
-  return providersMatcher.reduce((a, c) => ({...a, ...c}));
+  return providersMatcher.reduce((a, c) => ({ ...a, ...c }));
 };
 
 module.exports = createExamplesUrlsForProviders;
