@@ -4,9 +4,15 @@
 const OpenAPIParser = require("@readme/openapi-parser");
 
 /**
+ * @typedef Git
+ * @property {string} path - The path to the file containing the openapi specification
+ */
+
+/**
  * @typedef {Object} Provider
- * @property {string} name - The name of the provider
+ * @property {string} name - The name of the provider (must be unique)
  * @property {string} openapiFile - The path to the OpenAPI file
+ * @property {Git} git - The git containing repo, file and ref (tag)
  */
 
 /**
@@ -14,8 +20,14 @@ const OpenAPIParser = require("@readme/openapi-parser");
  * @param {Provider} param0 - The provider object
  * @returns {Promise<RegExp[]>} - Array of matchers
  */
-const createMatchers = async ({ name, openapiFile }) => {
-  const openApi = await OpenAPIParser.validate(openapiFile);
+const createMatchers = async ({ name, openapiFile, git }) => {
+  let file = openapiFile;
+
+  if (git) {
+    file = `./providers/${name}/${git.path}`;
+  }
+
+  const openApi = await OpenAPIParser.validate(file);
   const examplesUrlMap = Object.keys(openApi.paths).map((path) => {
     const mapExamples = Object.keys(openApi.paths[path]).map((attr) => {
       if (![ 'get', 'post', 'put', 'delete', 'patch' ].includes(attr)) return [];
