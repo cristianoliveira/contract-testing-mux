@@ -22,7 +22,7 @@ the implementation is compatible with the contract described in the openapi spec
 ### Reliable UI/e2e testing
 
 Many times the UI tests are flaky because one or more services aren't stable, with this service
-the UI tests can be more reliable since they can be written agains a mock response from prosm service
+the UI tests can be more reliable since they can be written against a mock response from prism service
 based on the **openapi specification examples** (which contribute with a more rich API documentation!). 
 For e2e tests, this services can proxy requests to the real service and check the contract.
 
