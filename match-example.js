@@ -4,13 +4,19 @@
 const OpenAPIParser = require("@readme/openapi-parser");
 
 /**
+ * @typedef {Object} Provider
+ * @property {string} name - The name of the provider
+ * @property {string} openapiFile - The path to the OpenAPI file
+ */
+
+/**
  * Create matchers from the OpenAPI specification
- * @param {string} specification - OpenAPI specification
+ * @param {Provider} param0 - The provider object
  * @returns {Promise<RegExp[]>} - Array of matchers
  */
-const createMatchers = async (specification) => {
-  const openApi = await OpenAPIParser.validate(specification);
-  return Object.keys(openApi.paths).map((path) => {
+const createMatchers = async ({ name, openapiFile }) => {
+  const openApi = await OpenAPIParser.validate(openapiFile);
+  const examplesUrlMap = Object.keys(openApi.paths).map((path) => {
     const mapExamples = Object.keys(openApi.paths[path]).map((attr) => {
       if (![ 'get', 'post', 'put', 'delete', 'patch' ].includes(attr)) return [];
       const method = openApi.paths[path][attr];
@@ -32,10 +38,24 @@ const createMatchers = async (specification) => {
       return { ...acc, [path.replace(/{[^}]*}/g, example)]: example };
     }, {})
   }).reduce((a, b) => ({ ...a, ...b }));;
+
+  return {
+    [name]: examplesUrlMap,
+  }
 };
 
 // createMatchers('./providers/pets-store/openapi/api.yaml').then((matchers) => {
 //   console.log('@@@@@@  matchers: ', matchers);
 // });
 
-module.exports = createMatchers;
+
+const createExamplesUrlsForProviders = async (providers) => {
+  const promises = providers.map(async provider => {
+    return await createMatchers(provider);
+  });
+
+  const providersMatcher = await Promise.all(promises);
+  return providersMatcher.reduce((a, c) => ({...a, ...c}));
+};
+
+module.exports = createExamplesUrlsForProviders;

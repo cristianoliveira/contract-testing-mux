@@ -16,27 +16,11 @@ const proxyConfig = require('./proxy.json');
 /**
  * @typedef {import('./routing').createMatchers} createMatchers
  */
-const createMatchers = require('./match-example.js');
+const examplesUrlMap = require('./match-example.js');
 
 const { providers } = proxyConfig;
 
-/**
- * @returns {Promise<{[key: string]: {[key: string]: string}}>}
- */
-const cacheMatchers = async () => {
-  const promises = providers.map(async provider => {
-    const matchers = await createMatchers(provider.openapiFile);
-
-    return {
-      [provider.name]: matchers,
-    };
-  });
-
-  const providersMatcher = await Promise.all(promises);
-  return providersMatcher.reduce((a, c) => ({...a, ...c}));
-}
-
-cacheMatchers().then((examplesMap) => {
+examplesUrlMap(providers).then((examplesMap) => {
   /**
    * @param {http.IncomingMessage} req
    * @param {http.ServerResponse} res

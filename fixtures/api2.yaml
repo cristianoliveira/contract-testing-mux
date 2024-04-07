@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Swagger Animals
+  license:
+    name: MIT
+servers:
+  - url: 'http://animals.swagger.io/v1'
+paths:
+  '/animals/{animalId}':
+    get:
+      summary: Info for a specific Animals
+      operationId: showAnimalsById
+      tags:
+        - Animals
+      parameters:
+        - name: animalId
+          in: path
+          required: true
+          description: The id of the Animals to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                title: Animals
+                description: A single Animals.
+                type: object
+                x-tags:
+                  - Animalss
+                properties:
+                  photoUrls:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+                    description: Animals status in the store
+                    enum:
+                      - available
+                      - pending
+                      - sold
+                required:
+                  - photoUrls
+              examples:
+                first:
+                  value:
+                    photoUrls: "/first.jpeg"
+                second:
+                  value:
+                    photoUrls: "/second.jpeg"
+
+
+

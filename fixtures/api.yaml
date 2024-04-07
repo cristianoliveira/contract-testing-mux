@@ -1,0 +1,360 @@
+openapi: 3.0.0
+info:
+  title: Pet Store API
+  version: 1.0.0
+paths:
+  /v1/pets/{id}/status:
+    parameters:
+      - $ref: "#/components/parameters/PetID"
+    get:
+      summary: Retrieve a status of pet
+      description: Returns a status of a pet.
+      tags:
+        - Pets v0.1
+      responses:
+        "200":
+          $ref: "#/components/responses/PetStatus"
+        "404":
+          $ref: "#/components/responses/ErrorNotFound"
+
+  /v1/pets/sessions/{id}:
+    get:
+      tags:
+        - Pet Sessions v1
+      summary: Retrieve a pet session by ID
+      description: Retrieve a pet session by its unique identifier
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Unique identifier 
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PetSession"
+              examples:
+                pending_session:
+                  summary: A summary of pending session
+                  value:
+                    id: "pending_session"
+                    pet_id: "f9148ec4-744e-4740-b536-a3c24838c2f8"
+                    merchant_data:
+                      merchant_code: "MC12345"
+                      business_name: "Pending shop"
+                      merchant_public_key: "sup_pk_1aS7I6KeC8SNUFW0B1VGGmLQ3rSqthjkD"
+                    items:
+                      - reference: "5697868d-54bf-4f7d-80d5-19d1384fe432"
+                        unit_amount:
+                          value: 3200
+                          currency: "GBP"
+                        unit_tax_amount:
+                          value: 1000
+                          currency: "GBP"
+                        quantity: 1
+                        name: "Decaf Cappucino"
+                        variant_name: "XXL"
+                        category: "Drinks"
+                        category_reference: "f4a6ba5c"
+                        tax_reference: "42ac120002"
+                    subtotal_amount:
+                      value: 4200
+                      currency: "GBP"
+                    vat_amount:
+                      value: 200
+                      currency: "GBP"
+                    total_amount:
+                      value: 4400
+                      currency: "GBP"
+                    payment_methods:
+                      - id: "card"
+                        name: "Card"
+                      - id: "apple_pay"
+                        name: "Apple pay"
+                      - id: "google_pay"
+                        name: "Google pay"
+                    redirect_url: "https://example.com/redirect"
+                    status: "PENDING"
+
+                paid_session:
+                  summary: A summary of paid session
+                  value:
+                    id: "paid_session"
+                    pet_id: "7c7def3a-3c0a-4536-8848-6bd2bb0e094e"
+                    merchant_data:
+                      merchant_code: "MC12345"
+                      business_name: "Paid shop"
+                      merchant_public_key: "sup_pk_1aS7I6KeC8SNUFW0B1VGGmLQ3rSqthjkD"
+                    items:
+                      - reference: "5697868d-54bf-4f7d-80d5-19d1384fe432"
+                        unit_amount:
+                          value: 2200
+                          currency: "GBP"
+                        unit_tax_amount:
+                          value: 100
+                          currency: "GBP"
+                        quantity: 1
+                        name: "Decaf Cappucino"
+                        variant_name: "XXL"
+                        category: "Drinks"
+                        category_reference: "f4a6ba5c"
+                        tax_reference: "42ac120002"
+                    subtotal_amount:
+                      value: 4300
+                      currency: "GBP"
+                    vat_amount:
+                      value: 300
+                      currency: "GBP"
+                    total_amount:
+                      value: 4600
+                      currency: "GBP"
+                    payment_methods:
+                      - id: "card"
+                        name: "Card"
+                      - id: "apple_pay"
+                        name: "Apple pay"
+                    redirect_url: "https://example.com/redirect"
+                    status: "PAID"
+
+
+  /pets:
+    post:
+      summary: Add a new pet
+      responses:
+        '201':
+          description: Pet added successfully
+
+    get:
+      summary: List all pets
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    species:
+                      type: string
+                    age:
+                      type: integer
+                    breed:
+                      type: string
+  /pets/{id}:
+   get:
+      tags:
+        - Pet Sessions v1
+      summary: Retrieve a pet session by ID
+      description: Retrieve a pet session by its unique identifier
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Unique identifier for the pet session
+          schema:
+            type: string
+ 
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  species:
+                    type: string
+                  age:
+                    type: integer
+                  breed:
+                    type: string
+
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error message structure.
+      properties:
+        message:
+          type: string
+          description: Short description of the error.
+        error_code:
+          type: string
+          description: Platform code for the error.
+        param:
+          type: string
+          description: Parameter name (with relative location) to which the error applies. Parameters from embedded resources are displayed using dot notation. For example, `card.name` refers to the `name` parameter embedded in the `card` object.
+      required:
+        - message
+        - error_code
+
+    PetSession:
+      type: object
+      properties:
+        pet_id:
+          type: string
+          example: 6c7def3a-3c0a-4536-8848-6bd2bb0e094e
+        merchant_data:
+          type: object
+          properties:
+            merchant_code:
+              type: string
+              example: MC12345
+            business_name:
+              type: string
+              example: The Baba Cafe
+            merchant_public_key:
+              type: string
+              example: sup_pk_0mnQkTbZA59jlXkYZwaMmCy4Oz2rO49bE
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              reference:
+                type: string
+                example: 5697868d-54bf-4f7d-80d5-19d1384fe432
+              unit_amount:
+                type: object
+                properties:
+                  value:
+                    type: integer
+                    example: 2200
+                  currency:
+                    type: string
+                    example: GBP
+              unit_tax_amount:
+                type: object
+                properties:
+                  value:
+                    type: integer
+                    example: 100
+                  currency:
+                    type: string
+                    example: GBP
+              quantity:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: Decaf Cappucino
+              variant_name:
+                type: string
+                example: XXL
+              category:
+                type: string
+                example: Drinks
+              category_reference:
+                type: string
+                example: f4a6ba5c
+              tax_reference:
+                type: string
+                example: 42ac120002
+        subtotal_amount:
+          type: object
+          properties:
+            value:
+              type: integer
+              example: 4400
+            currency:
+              type: string
+              example: GBP
+        vat_amount:
+          type: object
+          properties:
+            value:
+              type: integer
+              example: 200
+            currency:
+              type: string
+              example: GBP
+        total_amount:
+          type: object
+          properties:
+            value:
+              type: integer
+              example: 4400
+            currency:
+              type: string
+              example: GBP
+        payment_methods:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: card
+              name:
+                type: string
+                example: CARD
+        redirect_url:
+          type: string
+          example: https://example.com/redirect
+        status:
+          type: string
+          example: PENDING
+    PetStatusResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Current status of the pet.
+          enum:
+            - PENDING
+            - FAILED
+            - SUCCESS
+
+  responses:
+    ErrorNotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            Not_Found:
+              description: The identified resource is not found on the server.
+              value:
+                error_code: NOT_FOUND
+                message: Resource not found
+
+    PetStatus:
+      description: Create pet response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PetStatusResponse"
+          examples:
+            foo:
+              value:
+                status: "SUCCESS"
+            Pet:
+              value:
+                status: "SUCCESS"
+
+  parameters:
+    PetID:
+      name: id
+      in: path
+      required: true
+      description: Unique ID of the pet resource.
+      schema:
+        type: string
+
