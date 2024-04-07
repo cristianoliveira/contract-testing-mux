@@ -20,7 +20,6 @@ const examplesUrlMap = require('./match-example.js');
 
 const { providers } = proxyConfig;
 
-console.log('@@@@@@ providers: ', providers);
 examplesUrlMap(providers).then((examplesMap) => {
   /**
    * @param {http.IncomingMessage} req
