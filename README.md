@@ -40,8 +40,8 @@ a integration test agains the contract service URL instead of the real service.
 
 ## Architecture
 
-This service contains a reverse proxy that forwards requests to a prims server.
-The prims server will then forward the requests to the upstream (real api)
+This service contains a reverse proxy that forwards requests to a prism server.
+The prism server will then forward the requests to the upstream (real api)
 and validate the request and response against the contract configured in `proxy.json`
 so when you call `http:localhost:4400/foo/bar` it will forward the request to
 `http://localhost:3000/bar` given that it's configured like:
