@@ -21,4 +21,4 @@ RUN npm install
 EXPOSE 4400
 
 # Command to run the application
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "start"]

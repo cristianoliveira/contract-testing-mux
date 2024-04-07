@@ -1,4 +1,19 @@
 #!/bin/bash
+set -e
+
+## Check for jq
+if ! [ -x "$(command -v jq)" ]; then
+  echo 'Error: jq is not installed.' >&2
+  exit 1
+fi
+
+function close_childs_on {
+  echo "Killing all processes"
+  cat $PWD/proxy.pid | xargs kill | echo "nothing to kill"
+  rm -f $PWD/proxy.pid
+}
+
+trap close_childs_on EXIT
 
 # Load files from proxy.json
 for i in $(jq -r '.providers[].name' proxy.json); do
@@ -8,7 +23,8 @@ for i in $(jq -r '.providers[].name' proxy.json); do
   port=$(jq -r --arg i $i '.providers[] | select(.name == $i) | .port' proxy.json)
 
   echo "npm run mock -d $file -p $port"
-  npm run mock -- -d $file -p $port &
+  bash -c "npm run mock -- -d $file -p $port & echo \$! >> $PWD/proxy.pid"
 done
 
 npm run start
+
