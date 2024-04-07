@@ -55,7 +55,7 @@ so when you call `http:localhost:4400/foo/bar` it will forward the request to
             "file": "./providers/foo/openapi/api.yaml"
         },
         {
-            "name": "foo",
+            "name": "anotheruniquename",
             "port": 3001,
             "git": {
                 "repo": "cristianoliveira/myprivaterepo",
