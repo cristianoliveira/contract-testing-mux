@@ -2,7 +2,7 @@ const examplesUrlMap = require('./match-example');
 const { providers } = require('./fixtures/proxy.json');
 
 describe('examplesUrlMap', () => {
-  it('should create matchers from the OpenAPI specification', async () => {
+  it('create matchers from the OpenAPI specification', async () => {
     const examples = await examplesUrlMap(providers);
     expect(examples["pets-store"]).toEqual({
       "/v1/pets/Not_Found/status": "Not_Found",
@@ -15,6 +15,11 @@ describe('examplesUrlMap', () => {
     expect(examples["animals"]).toEqual({
       "/animals/first": "first",
       "/animals/second": "second",
+    });
+
+    expect(examples["cats"]).toEqual({
+      "/cats/first": "first",
+      "/cats/second": "second",
     });
   });
 });

@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Swagger Cats
+  license:
+    name: MIT
+servers:
+  - url: 'http://cats.swagger.io/v1'
+paths:
+  '/cats/{catId}':
+    get:
+      summary: Info for a specific Cats
+      operationId: showcatsById
+      tags:
+        - Cats
+      parameters:
+        - name: catId
+          in: path
+          required: true
+          description: The id of the Cats to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                title: Cats
+                description: A single Cats.
+                type: object
+                x-tags:
+                  - catss
+                properties:
+                  photoUrls:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+                    description: Cats status in the store
+                    enum:
+                      - available
+                      - pending
+                      - sold
+                required:
+                  - photoUrls
+              examples:
+                first:
+                  value:
+                    photoUrls: "/first.jpeg"
+                second:
+                  value:
+                    photoUrls: "/second.jpeg"
