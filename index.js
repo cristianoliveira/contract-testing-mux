@@ -44,7 +44,7 @@ examplesUrlMap(providers).then((examplesMap) => {
     const specialHeader = preferedExample ? { 'Prefer': `example=${preferedExample}` } : {};
 
     const options = {
-      hostname: "0.0.0.0",
+      hostname: "localhost",
       port: provider.port,
       path: req.url.replace(`/${provider.name}`, ''),
       method: req.method,
