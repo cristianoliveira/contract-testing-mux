@@ -125,6 +125,13 @@ Docker
 docker compose up
 ```
 
+**Note**: When running localhost you must add the services subdomains into `/etc/hosts` file like:
+
+```bash
+127.0.0.1        foo.localhost
+127.0.0.1        anotheruniquename.localhost
+```
+
 ### Testing
 
 ```bash
