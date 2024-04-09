@@ -43,7 +43,7 @@ a integration test agains the contract service URL instead of the real service.
 This service contains a reverse proxy that forwards requests to a prism server.
 The prism server will then forward the requests to the upstream (real api)
 and validate the request and response against the contract configured in `proxy.json`
-so when you call `http:localhost:4400/foo/bar` it will forward the request to
+so when you call `http:foo.localhost:4400/bar` it will forward the request to
 `http://localhost:3000/bar` given that it's configured like:
 
 ```json
@@ -69,11 +69,13 @@ so when you call `http:localhost:4400/foo/bar` it will forward the request to
 Once running that will create a api gateway with the following endpoints (see fixtures/*.yml):
 
 ```bash
+
 Provider: foo
-  /foo/pets/{id}/status -> /v1/pets/{id}/status
-  /foo/pets/sessions/{id} -> /v1/pets/sessions/{id}
+  http://foo.localhost:4400/pets/{id}/status -> {foo-provider}/v1/pets/{id}/status
+  http://foo.localhost:4400/pets/sessions/{id} -> {foo-provider}/v1/pets/sessions/{id}
+
 provider: anotheruniquename
-  /anotheruniquename/cats/{id} -> /cats/pets/foo/status
+  http://anotheruniquename.localhost:4400/cats/{id} -> {anotheruniquename-provider}/pets/foo/status
 ```
 Those endpoints will respond either with auto-generated responses or mocks based on the specs `examples` section. The service can
 also, proxy the requests upstream and validate the specification with a real response!

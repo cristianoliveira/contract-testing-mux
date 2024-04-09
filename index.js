@@ -27,9 +27,10 @@ examplesUrlMap(providers).then((examplesMap) => {
    * @returns {void}
    */
   async function onRequest(req, res) {
-    console.log('serve: ' + req.url);
+    console.log('Reques host: ' + req.headers.host);
 
-    const [,providerName,] = req.url.split('/')
+    const [providerName,] = req.headers.host.split('.');
+
     const provider = providers.find(p => p.name === providerName);
     if (!provider) {
       res.writeHead(404, { 'Content-Type': 'text/plain' });
