@@ -1,1 +1,3 @@
 spin up each service configured in ./proxy.json with it's own port
+
+check possibility of having subdomains for each service, issue with new URL(path, base)
