@@ -7,3 +7,5 @@ services:
       - "4400:4400"
     volumes:
       - ./:/app
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
