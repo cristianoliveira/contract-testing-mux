@@ -27,7 +27,7 @@ examplesUrlMap(providers).then((examplesMap) => {
    * @returns {void}
    */
   async function onRequest(req, res) {
-    console.log('Reques host: ' + req.headers.host);
+    console.log('Request host: ' + req.headers.host);
 
     const [providerName,] = req.headers.host.split('.');
 
