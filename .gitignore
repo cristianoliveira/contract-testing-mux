@@ -3,3 +3,6 @@ node_modules
 proxy.pid
 
 .env
+.ssh
+
+infra/.terraform
