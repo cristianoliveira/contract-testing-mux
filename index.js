@@ -39,8 +39,7 @@ examplesUrlMap(providers).then((examplesMap) => {
     }
 
     const providerExamples = examplesMap[providerName] || {};
-    const [,pathWithoutProviderName] = req.url.split(providerName);
-    const preferedExample = providerExamples[pathWithoutProviderName];
+    const preferedExample = providerExamples[req.url];
 
     const specialHeader = preferedExample ? { 'Prefer': `example=${preferedExample}` } : {};
 
