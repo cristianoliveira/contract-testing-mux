@@ -16,12 +16,18 @@ const OpenAPIParser = require("@readme/openapi-parser");
  */
 
 /**
+ * @typedef {Object} Examples
+ * @property {string} key - The key of the example
+ * @property {string} status - The status of the example
+ */
+
+/**
  * Create matchers from the OpenAPI specification
  * @param {Provider} param0 - The provider object
- * @returns {Promise<RegExp[]>} - Array of matchers
+ * @returns {Promise<{ [string]: Examples }>} - Array of matchers
  */
 const createMatchers = async ({ name, file, git }) => {
-  let specification = 
+  let specification =
     git ? `./providers/${name}/${git.path}` : file;
 
   const openApi = await OpenAPIParser.validate(specification);
@@ -36,7 +42,11 @@ const createMatchers = async ({ name, file, git }) => {
         return Object.keys(method.responses[response].content).map((content) => {
           const contentObjs = method.responses[response].content[content];
           if (!contentObjs.examples) return [];
-          return Object.keys(contentObjs.examples);
+
+          return Object.keys(contentObjs.examples).map((example) => ({
+            key: example,
+            status: response
+          }));
         });
       }).flat(2);
 
@@ -44,7 +54,7 @@ const createMatchers = async ({ name, file, git }) => {
     }).flat(2);
 
     return mapExamples.reduce((acc, example) => {
-      return { ...acc, [path.replace(/{[^}]*}/g, example)]: example };
+      return { ...acc, [path.replace(/{[^}]*}/g, example.key)]: example };
     }, {})
   }).reduce((a, b) => ({ ...a, ...b }));;
 
@@ -62,6 +72,11 @@ if (require.main === module) {
   });
 }
 
+/**
+ * Create examples urls for providers
+ * @param {Provider[]} providers - The providers array
+ * @returns {Promise<Record<string, Record<string, Examples>>>} - The examples urls
+ */
 const createExamplesUrlsForProviders = async (providers) => {
   const promises = providers.map(async provider => {
     return await createMatchers(provider);
