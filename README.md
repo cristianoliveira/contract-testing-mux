@@ -137,3 +137,21 @@ docker compose up
 ```bash
 npm run test
 ```
+
+### Load testing
+
+```bash
+echo "GET http://foo.mydomain.org:4400/pets/1/status" | vegeta attack -duration=1m | tee vegeta-results.bin | vegeta report
+```
+
+Simple test result
+```
+Requests      [total, rate, throughput]         3000, 50.02, 49.87
+Duration      [total, attack, wait]             1m0s, 59.98s, 182.012ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  178.291ms, 229.137ms, 188.06ms, 309.372ms, 356.702ms, 683.663ms, 1.054s
+Bytes In      [total, mean]                     1023000, 341.00
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:3000
+Error Set:
+```
