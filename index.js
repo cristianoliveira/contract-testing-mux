@@ -72,6 +72,6 @@ examplesUrlMap(providers).then((examplesMap) => {
       p => `provider: ${p.name}\nexamples: ${Object.keys(examplesMap[p.name]).join('\n ')}`
     ).join('\n'));
 
-  http.createServer(onRequest).listen(4400);
+  http.createServer(onRequest).listen(process.env.PORT || 4400);
 });
 

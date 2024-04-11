@@ -29,7 +29,7 @@ module "webapp_sg" {
     "http-80-tcp",
     "http-8080-tcp",
     "https-443-tcp",
-    # "ssh-tcp"
+    "ssh-tcp"
   ]
   ingress_cidr_blocks = ["0.0.0.0/0"]
 
@@ -37,19 +37,11 @@ module "webapp_sg" {
   egress_cidr_blocks = ["0.0.0.0/0"]
 }
 
-resource "aws_key_pair" "aws_kp" {
-  key_name   = "api_key_pair"
-  public_key = data.local_file.aws_pub_key.content
-}
+resource "aws_eip" "app_elastic_ip" {
+  tags = {
+    Name = "app_elastic_ip"
+  }
 
-# In case you want to ssh to your instance
-#
-# Add the follow rule to main_sg module
-#   ingress_rules = ["ssh-tcp"]
-#
-# Genetare a key pair `ssh-keygen -t ed25519 -C "mail@example"`
-# inside of the `./.ssh/` folder and name it "aws"
-data "local_file" "aws_pub_key" {
-  filename = ".ssh/aws.pub"
+  depends_on = [aws_instance.contractapp]
+  instance = aws_instance.contractapp.id
 }
-
