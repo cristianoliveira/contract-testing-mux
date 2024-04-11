@@ -45,8 +45,9 @@ examplesUrlMap(providers).then((examplesMap) => {
 
     let specialHeader = ""
     const status = Number(example?.status || 0);
+    // See https://github.com/stoplightio/prism/blob/c1145066f9e1f8d24b62c5356d8bf2312327e97b/packages/http-server/src/getHttpConfigFromRequest.ts#L28
     if (status >= 299 || status <= 200) {
-      path.searchParams.set('__code', status);
+     specialHeader = example ? { 'Prefer': `code=${example.status}` } : {};
     } else {
      specialHeader = example ? { 'Prefer': `example=${example.key}` } : {};
     }
