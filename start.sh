@@ -7,6 +7,12 @@ if ! [ -x "$(command -v jq)" ]; then
   exit 1
 fi
 
+## Check environment variables
+if [ -z "$GITHUB_TOKEN" ]; then
+  echo 'Error: GITHUB_TOKEN is not set.' >&2
+  exit 1
+fi
+
 function close_childs_on {
   echo "Killing all processes"
   cat $PWD/proxy.pid | xargs kill | echo "nothing to kill"
