@@ -41,11 +41,10 @@ for name in $(jq -r '.providers[].name' proxy.json); do
     echo "Downloading $dir from $repo"
 
     echo "https://raw.githubusercontent.com/$repo/$tag/$path"
-    # curl -v -s -L -o "$fullpath" \
-    #   "https://raw.githubusercontent.com/$repo/$tag/$path" \
-    #   -H "Authorization: token $token"
+    curl -v -s -L -o "$fullpath" \
+      "https://raw.githubusercontent.com/$repo/$tag/$path" \
+      -H "Authorization: token $token"
     file=$fullpath
-    echo "@@@@ file - $file"
   fi
 
   echo "npm run prism:mock -d $file -p $port"
