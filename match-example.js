@@ -26,7 +26,7 @@ const OpenAPIParser = require("@readme/openapi-parser");
  * @param {Provider} param0 - The provider object
  * @returns {Promise<{ [string]: Examples }>} - Array of matchers
  */
-const createMatchers = async ({ name, file, git }) => {
+const mapExamplesToURL = async ({ name, file, git }) => {
   let specification =
     git ? `./providers/${name}/${git.path}` : file;
 
@@ -67,7 +67,7 @@ const createMatchers = async ({ name, file, git }) => {
 // `node match-example.js`
 if (require.main === module) {
   const { providers } = require('./fixtures/proxy.json');
-  createMatchers(providers[0]).then((matchers) => {
+  mapExamplesToURL(providers[0]).then((matchers) => {
     console.log('matchers: ', matchers);
   });
 }
@@ -79,7 +79,7 @@ if (require.main === module) {
  */
 const createExamplesUrlsForProviders = async (providers) => {
   const promises = providers.map(async provider => {
-    return await createMatchers(provider);
+    return await mapExamplesToURL(provider);
   });
 
   const providersMatcher = await Promise.all(promises);
