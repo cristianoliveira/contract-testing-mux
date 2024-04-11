@@ -14,11 +14,12 @@ const http = require('http');
 const proxyConfig = require('./proxy.json');
 
 /**
- * @typedef {import('./routing').createMatchers} createMatchers
+ * @typedef {import('./routing').createExamplesUrlsForProviders} examplesUrlMap
  */
 const examplesUrlMap = require('./match-example.js');
 
 const { providers } = proxyConfig;
+
 
 examplesUrlMap(providers).then((examplesMap) => {
   /**
@@ -39,14 +40,21 @@ examplesUrlMap(providers).then((examplesMap) => {
     }
 
     const providerExamples = examplesMap[providerName] || {};
-    const preferedExample = providerExamples[req.url];
+    const example = providerExamples[req.url];
+    const path =  new URL(req.url, "http://localhost");
 
-    const specialHeader = preferedExample ? { 'Prefer': `example=${preferedExample}` } : {};
+    let specialHeader = ""
+    const status = Number(example?.status || 0);
+    if (status >= 299 || status <= 200) {
+      path.searchParams.set('__code', status);
+    } else {
+     specialHeader = example ? { 'Prefer': `example=${example.key}` } : {};
+    }
 
     const options = {
       hostname: "localhost",
       port: provider.port,
-      path: req.url.replace(`/${provider.name}`, ''),
+      path: path,
       method: req.method,
       headers: {
         ...req.headers,

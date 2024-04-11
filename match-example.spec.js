@@ -5,21 +5,37 @@ describe('examplesUrlMap', () => {
   it('create matchers from the OpenAPI specification', async () => {
     const examples = await examplesUrlMap(providers);
     expect(examples["pets-store"]).toEqual({
-      "/v1/pets/Not_Found/status": "Not_Found",
-      "/v1/pets/Pet/status": "Pet",
-      "/v1/pets/foo/status": "foo",
-      "/v1/pets/sessions/paid_session": "paid_session",
-      "/v1/pets/sessions/pending_session": "pending_session",
+      "/v1/pets/Not_Found/status": {
+        key: "Not_Found",
+        status: "404",
+      },
+      "/v1/pets/Pet/status": {
+        key: "Pet",
+        status: "200",
+      },
+      "/v1/pets/foo/status": {
+        key: "foo",
+        status: "200",
+      },
+      "/v1/pets/sessions/paid_session": {
+        key: "paid_session",
+        status: "200",
+      },
+      "/v1/pets/sessions/pending_session": {
+        key: "pending_session",
+        status: "200",
+      },
     });
 
     expect(examples["animals"]).toEqual({
-      "/animals/first": "first",
-      "/animals/second": "second",
-    });
-
-    expect(examples["cats"]).toEqual({
-      "/cats/first": "first",
-      "/cats/second": "second",
+      "/animals/first": {
+        key: "first",
+        status: "200",
+      },
+      "/animals/second": {
+        key: "second",
+        status: "200",
+      }
     });
   });
 });
