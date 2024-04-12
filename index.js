@@ -64,7 +64,7 @@ examplesUrlMap(providers).then((examplesMap) => {
     };
 
     const proxy = http.request(options, function (proxy_res) {
-      res.writeHead(res.statusCode, res.headers)
+      res.writeHead(proxy_res.statusCode, res.headers)
       proxy_res.pipe(res, {
         end: true
       });
