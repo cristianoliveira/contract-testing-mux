@@ -14,8 +14,8 @@
       "name": "cats",
       "port": 4012,
       "git": {
-        "repo": "sumup/op-checkouts",
-        "path": "open-api-definition/api.yaml",
+        "repo": "cristianoliveira/myprivaterepo",
+        "path": "api2.yaml",
         "tag": "main"
       }
     }

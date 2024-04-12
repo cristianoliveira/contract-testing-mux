@@ -9,3 +9,20 @@ services:
       - ./:/app
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+    depends_on:
+      - cats
+      - pet_store
+  cats:
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    image: stoplight/prism:4
+    command: >
+      mock -p 4012 --host 0.0.0.0
+      https://raw.githubusercontent.com/cristianoliveira/myprivaterepo/main/api2.yaml
+  pet_store:
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    image: stoplight/prism:4
+    command: >
+      mock -p 4010 --host 0.0.0.0
+      https://raw.githubusercontent.com/cristianoliveira/contract-testing-mux/blob/main/fixtures/api2.yaml

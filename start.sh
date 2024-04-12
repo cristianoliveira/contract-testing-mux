@@ -53,8 +53,10 @@ for name in $(jq -r '.providers[].name' proxy.json); do
     file=$fullpath
   fi
 
-  echo "npm run prism:mock -d $file -p $port"
-  bash -c "npm run prism:mock -- -d $file -p $port & echo \$! >> $PWD/proxy.pid"
+  if [ "$PROCESS" == "1" ]; then
+    echo "npm run prism:mock -d $file -p $port"
+    bash -c "npm run prism:mock -- -d $file -p $port & echo \$! >> $PWD/proxy.pid"
+  fi
 done
 
 npm run proxy:serve
